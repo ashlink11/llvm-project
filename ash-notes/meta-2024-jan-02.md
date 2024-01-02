@@ -31,8 +31,7 @@ lib (LLVM source files for its actual internal code)
 - ExecutionEngine(interpreted/JIT)
 - Support(header files, e.g.: abstract data types (ADT))
 
->
-Target(target architectures)
+
 >
 Support(header files, e.g.: abstract data types (ADT))
 >
@@ -44,6 +43,8 @@ Transforms(IR-to-IR)
 >
 Bitcode
 >
+Target(target architectures)
+>
 CodeGen(instructions/scheduling/registers)
 >
 AsmParser
@@ -53,5 +54,5 @@ MC(machine code ASM/object-file emission)
 ExecutionEngine(interpreted/JIT)
 > 
 
-(but where is the code for resolving references/linking and does that happen around the bitcode stage? is target actually after bitcode?)
+(but where is the code for resolving references/linking and does that happen around the bitcode stage? is target actually after bitcode? is cmake used during Target?)
 
