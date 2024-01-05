@@ -97,7 +97,7 @@ llvm/lib/Support - source code that corresponds to the header files in llvm/incl
 
 llvm/bindings
 
-
+bindings for the LLVM compiler infrastructure allow programs written in languages other than C or C++ to take advantage of the LLVM infrastructure. LLVM provides language bindings for OCaml and Python
 
 
 
@@ -122,8 +122,21 @@ llvm/projects
 llvm/test
 test-suite
 llvm/tools
-llvm/utils
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+llvm/utils - 
 
 
 
