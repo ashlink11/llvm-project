@@ -80,21 +80,6 @@ llvm/lib/Support - source code that corresponds to the header files in llvm/incl
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 llvm/bindings
 
 bindings for the LLVM compiler infrastructure allow programs written in languages other than C or C++ to take advantage of the LLVM infrastructure. LLVM provides language bindings for OCaml and Python
@@ -102,23 +87,16 @@ bindings for the LLVM compiler infrastructure allow programs written in language
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 llvm/projects
+
+uses cmake for invocation. 
+docs: [github.com/llvm/docs/CMake.rst](https://github.com/llvm/llvm-project/blob/main/llvm/docs/CMake.rst)
+how to make cmake projects that are shipped with LLVM.
+also used to make your own projects.
+
+
+
+
 llvm/test
 test-suite
 llvm/tools
