@@ -109,17 +109,31 @@ types are unit tests (individ components/functions), integration tests (check in
 
 
 test-suite
+
+comprehensive correctness, performance, and benchmarking test suite for LLVM. it's in a separate git repo because it contains a large amount of third-party code under a variety of licenses. for details, see the testing guide document.
+
+
+
+
 llvm/tools
 
+executables built out of the libraries above, which form the main part of the user interface. you can always get help for a tool by typing `tool_name - help`. the following is a brief introduction to the most important tools. more detailed information is in the command guide.
 
+bugpoint: used to debug optimization passes or code generation backends by narrowing down the given test case to the minimum number of passes and/or instructions that still cause a problem, whether it is a crash or miscompilation. see howtosubmitabug.html for more information on using bugpoint.
 
+llvm-ar: the archiver produces an archive containing the given LLVM bitcode files, optionally with an index for faster lookup.
 
+llvm-as: the assembler transforms the human readable LLVM assembly to LLVM bitcode
 
+llvm-dis: the disassembler transforms the LLVM bitcode to human readable LLVM assembly
 
+llvm-link: not surprisingly, links multiple LLVM modules into a single program (modules are compiler version and linker flags)
 
+lli: lli is the LLVM interpreter, which can directly execute LLVM bitcode (although very slowly ...). For architectures that support it (currently x86, Sparc, and PowerPC), by default, lli will function as a Just-In-Time compiler (if the functionality was compiled in), and will execute the code much faster than the interpreter.
 
+llc: llc is the LLVM backend compiler, which translates LLVM bitcode to a native code assembly file
 
-
+opt: opt reads LLVM bitcode, applies a series of LLVM to LLVM transformations (which are specified on the command line), and outputs the resultant bitcode. `opt -help` is a good way to get a list of the program transformations available in LLVM. opt can also run a specific analysis on an input LLVM bitcode file and print the results. primarily useful for debugging analyses, or familiarizing yourself with what an analysis does.
 
 
 
