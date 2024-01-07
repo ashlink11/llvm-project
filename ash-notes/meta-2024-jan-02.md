@@ -35,11 +35,11 @@ lib (LLVM source files for its actual internal code)
 >
 Support(header files, e.g.: abstract data types (ADT))
 >
-Analysis (call graphs, natural loop identification)
->
 IR
 >
 Transforms(IR-to-IR)
+>
+Analysis (call graphs, natural loop identification)
 >
 Bitcode
 >
