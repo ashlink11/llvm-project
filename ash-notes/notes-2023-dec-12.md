@@ -98,6 +98,16 @@ also used to make your own projects.
 
 
 llvm/test
+
+feature and regression tests and other sanity checks on LLVM infrastructure. these are intended to run quickly and cover a lot of territory without being exhaustive.
+
+a regression is a new bug when making an update to the LLVM infrastructure (the compiler and related tools)
+
+types are unit tests (individ components/functions), integration tests (check interactions between different parts of LLVM), functional tests (evaluate the functionality of the compiler, optimizations, code generation, etc.), and performance tests (performance metrics of compiler and generated code)
+
+
+
+
 test-suite
 llvm/tools
 
