@@ -80,52 +80,82 @@ llvm/lib/Support - source code that corresponds to the header files in llvm/incl
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 llvm/bindings
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+bindings for the LLVM compiler infrastructure allow programs written in languages other than C or C++ to take advantage of the LLVM infrastructure. LLVM provides language bindings for OCaml and Python
 
 
 
 
 llvm/projects
+
+uses cmake for invocation. 
+docs: [github.com/llvm/docs/CMake.rst](https://github.com/llvm/llvm-project/blob/main/llvm/docs/CMake.rst)
+how to make cmake projects that are shipped with LLVM.
+also used to make your own projects.
+
+
+
+
 llvm/test
+
+feature and regression tests and other sanity checks on LLVM infrastructure. these are intended to run quickly and cover a lot of territory without being exhaustive.
+
+a regression is a new bug when making an update to the LLVM infrastructure (the compiler and related tools)
+
+types are unit tests (individ components/functions), integration tests (check interactions between different parts of LLVM), functional tests (evaluate the functionality of the compiler, optimizations, code generation, etc.), and performance tests (performance metrics of compiler and generated code)
+
+
+
+
 test-suite
+
+comprehensive correctness, performance, and benchmarking test suite for LLVM. it's in a separate git repo because it contains a large amount of third-party code under a variety of licenses. for details, see the testing guide document.
+
+
+
+
 llvm/tools
-llvm/utils
+
+executables built out of the libraries above, which form the main part of the user interface. you can always get help for a tool by typing `tool_name - help`. the following is a brief introduction to the most important tools. more detailed information is in the command guide.
+
+bugpoint: used to debug optimization passes or code generation backends by narrowing down the given test case to the minimum number of passes and/or instructions that still cause a problem, whether it is a crash or miscompilation. see howtosubmitabug.html for more information on using bugpoint.
+
+llvm-ar: the archiver produces an archive containing the given LLVM bitcode files, optionally with an index for faster lookup.
+
+llvm-as: the assembler transforms the human readable LLVM assembly to LLVM bitcode
+
+llvm-dis: the disassembler transforms the LLVM bitcode to human readable LLVM assembly
+
+llvm-link: not surprisingly, links multiple LLVM modules into a single program (modules are compiler version and linker flags)
+
+lli: lli is the LLVM interpreter, which can directly execute LLVM bitcode (although very slowly ...). For architectures that support it (currently x86, Sparc, and PowerPC), by default, lli will function as a Just-In-Time compiler (if the functionality was compiled in), and will execute the code much faster than the interpreter.
+
+llc: llc is the LLVM backend compiler, which translates LLVM bitcode to a native code assembly file
+
+opt: opt reads LLVM bitcode, applies a series of LLVM to LLVM transformations (which are specified on the command line), and outputs the resultant bitcode. `opt -help` is a good way to get a list of the program transformations available in LLVM. opt can also run a specific analysis on an input LLVM bitcode file and print the results. primarily useful for debugging analyses, or familiarizing yourself with what an analysis does.
 
 
 
+
+llvm/utils - 
+
+utilities for working with LLVM source code; some are part of the build process because they are code generators for parts of the infrastructure
+
+LLC: the LLVM static compiler
+LLI: the LLVM interpreter
+
+`codegen-diff`: finds differences between code that LLC generates and code that LLI generates. this is useful if you are debugging one of them, assuming that the other generates correct output. For the full user manual, run `perldoc codegen-diff`.
+
+`emacs/` - Emacs and XEmacs syntax highlighting for LLVM assembly files and TableGen description files. See the README for information on using them.
+
+`getsrcs.sh`: finds and outputs all non-generated source files, useful if one wishes to do a lot of development across directories and does not want to find each file. one way to use it is to fun, for example: `xemacs 'utils/getsources.sh'` from the top of the LLVM source tree.
+
+`llvmgrep` - performs an `egrep -H -n` on each source file in LLVM and passes it to a regular expression provided on llvmgrep's command line. this is an efficient way of searching the source base for a particular regular expression.
+
+`TableGen/` - contains the tool used to generate register descriptions, instruction set descriptions, and even assemblers from common TableGen description files. (TableGen is a domain-specific language that is part of the compiler backend for target-specific details.)
+
+`vim/` - vim syntax-highlighting for the LLVM assembly files and TableGen description files. See the README for how to use them.
 
 
 
