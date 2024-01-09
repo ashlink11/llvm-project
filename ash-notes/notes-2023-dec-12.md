@@ -142,8 +142,20 @@ llvm/utils -
 
 utilities for working with LLVM source code; some are part of the build process because they are code generators for parts of the infrastructure
 
-codegen-diff: finds differences between code that ...
+LLC: the LLVM static compiler
+LLI: the LLVM interpreter
 
+`codegen-diff`: finds differences between code that LLC generates and code that LLI generates. this is useful if you are debugging one of them, assuming that the other generates correct output. For the full user manual, run `perldoc codegen-diff`.
+
+`emacs/` - Emacs and XEmacs syntax highlighting for LLVM assembly files and TableGen description files. See the README for information on using them.
+
+`getsrcs.sh`: finds and outputs all non-generated source files, useful if one wishes to do a lot of development across directories and does not want to find each file. one way to use it is to fun, for example: `xemacs 'utils/getsources.sh'` from the top of the LLVM source tree.
+
+`llvmgrep` - performs an `egrep -H -n` on each source file in LLVM and passes it to a regular expression provided on llvmgrep's command line. this is an efficient way of searching the source base for a particular regular expression.
+
+`TableGen/` - contains the tool used to generate register descriptions, instruction set descriptions, and even assemblers from common TableGen description files. (TableGen is a domain-specific language that is part of the compiler backend for target-specific details.)
+
+`vim/` - vim syntax-highlighting for the LLVM assembly files and TableGen description files. See the README for how to use them.
 
 
 
