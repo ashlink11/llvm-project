@@ -140,6 +140,9 @@ opt: opt reads LLVM bitcode, applies a series of LLVM to LLVM transformations (w
 
 llvm/utils - 
 
+utilities for working with LLVM source code; some are part of the build process because they are code generators for parts of the infrastructure
+
+codegen-diff: finds differences between code that ...
 
 
 
