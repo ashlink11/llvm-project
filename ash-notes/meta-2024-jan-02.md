@@ -105,6 +105,17 @@ Google:
   - misc: `vote` performs a vote operation within a warp
 - CUDA: "a single instruction is executed across multiple threads within a thread block. Each thread follows the same program, and threads within a block can diverge in their execution paths based on conditional statements"
 
+SIMT (cont.):
+- select threads can be activated/deactivated, and preserve local data on inactive threads, which accommodates branching (though not efficiently)
+
+"Many vector instructions in Intel's x86_64 have masked variants, in which a vector instruction can be turned on/off for selected vector lanes according to the true/false values in an extra vector operand. This extra operand is called a "mask" because it functions like one: it "hides" certain vector lanes. And the masking trick enables branching to be vectorized on CPUs, too, to a limited extent."
+
+warp: block/bundle of 32 threads with consecutive thread indexes (etymology from weaving, the first parallel-thread technology) (like a vectorized loop chunked into fixed-size vectors and processed by a set of vector lanes; VPUs within CPUs) (avoid branching in a warp because it damages efficiency) (warp is hardware detail?); warp is a small group of threads
+
+coalescing: merge memory access across threads and hide latency; memory is a bottleneck
+
+execute the same instruction in lockstep across multiple datapath lanes with each thread occupying one lane to compute and independent result from its own operands. threading model: "SIMT machine can host numerous in-flight warps", each thread has its own program counter and stacks so threads can have divergent execution paths ; divergence across warps is okay but divergence within warps is bad; think about costs for fetch/decode/issue
+
 
 ISAs: SIMT, SIMD, MIMD, SPMD, Vector Processor, Array Processor, Dataflow Architectures, and VLIW
 
@@ -168,3 +179,5 @@ microprocessors = CPUs
 - 1985: C++ Bjarne Stroustrup -- OOP
 - 1991: Java portable executable for diff processors (James Gosling at Sun Microsystems) (acquired by Oracle in 2010) (4 years to develop it)
 - 
+
+
