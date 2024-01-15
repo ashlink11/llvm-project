@@ -103,6 +103,12 @@ Google:
   - load/store of specialized memory: `ldg` `stg` load and store global memory
   - predication and masking: `@p0` `@!p0` predicated execution based on conditions
   - misc: `vote` performs a vote operation within a warp
+
+predicate: 
+- a predicate is a function that returns a boolean value, often used in conditional statements
+- Latin word "praedicare" means "to proclaim" or "to assert." 
+- In logic, a predicate is a statement that may be true or false, depending on the values of its variables.
+
 - CUDA: "a single instruction is executed across multiple threads within a thread block. Each thread follows the same program, and threads within a block can diverge in their execution paths based on conditional statements"
 
 SIMT (cont.):
