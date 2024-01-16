@@ -264,6 +264,7 @@ remaining questions:
 - the header files declare the intrinsic functions and the developers use these functions in their code
 - header files are really just dependencies
 - each file has its own object file
+- `.h` is a header file
 
 - this is how to include the `<immintrin.h>` header file:
 
@@ -308,8 +309,8 @@ void vectorAdd(float *a, float *b, float *result, int size) {
 
 - LLVM Intrinsics: Target-specific SIMD which are lower-level functions than even C/C++
 - Non-target-specific Clang Built-Ins: `__builtin_expect`
-- Abstract interface
-- Modern primitives library of extra instructions
+- Abstract built-in wrapper interface: can be used to allocate and manage memory and built-ins can be included in these files
+- Modern primitives library of extra instructions (can be target-specific or non-target-specific depending on compilation flags)
 - Specific hardware
 
 
@@ -333,3 +334,51 @@ if (__builtin_expect(x > 0, 1)) {
     // Unlikely branch
 }
 ```
+
+
+`custom_malloc` is the wrapper:
+
+```c
+#include <builtins.h>
+#include <stdlib.h>
+#include "libmgpu.h"
+
+// Built-in wrapper for memory allocation with additional functionality
+void* custom_malloc(size_t size) {
+    // Using Clang built-in for branch prediction
+    if (__builtin_expect(size == 0, 0)) {
+        // Handle the unexpected case
+        return NULL;
+    }
+
+    // Using Clang built-ins or other custom logic
+
+    // Call the memory allocation function from libmgpu.a
+    void* ptr = libmgpu_malloc(size);
+
+    // Additional functionality or error checking
+    if (!ptr) {
+        // Handle memory allocation failure
+        // Log an error, perform cleanup, etc.
+    }
+
+    return ptr;
+}
+
+// Example use in a program
+int main() {
+    // Allocate memory using the custom wrapper
+    int* data = (int*)custom_malloc(10 * sizeof(int));
+
+    // Use the allocated memory
+    if (data) {
+        // Perform operations on 'data'
+    }
+
+    // Cleanup or release resources
+    libmgpu_free(data);
+
+    return 0;
+}
+```
+
