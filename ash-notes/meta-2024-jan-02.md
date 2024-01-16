@@ -22,16 +22,16 @@ examples (walk through the actual process in diff ways)
 include (public header files -- which are like main() entry files -- for LLVM code, support libraries, and cmake config)
 
 lib (LLVM source files for its actual internal code) 
+- Support(header files, e.g.: abstract data types (ADT))
 - IR
-- AsmParser
-- Bitcode
-- Analysis (call graphs, natural loop identification)
 - Transforms(IR-to-IR)
+- Analysis (call graphs, natural loop identification)
+- Bitcode
 - Target(target architectures)
 - CodeGen(instructions/scheduling/registers)
+- AsmParser
 - MC(machine code ASM/object-file emission)
 - ExecutionEngine(interpreted/JIT)
-- Support(header files, e.g.: abstract data types (ADT))
 
 
 >
@@ -96,7 +96,7 @@ Google:
   - data movement: `ld` `st`
   - ALU/CLU ops: `add` `sub` `mul` `div` `and` `or` `xor` `not`
   - comparison ops: `setp` `set` set predicate based on comparison & set variable based on predicate
-  - contrl flow: `bra` `exit` `call` `ret`
+  - control flow: `bra` `exit` `call` `ret`
   - special functions: `sin` `cos` `sqrt`
   - shuffle and warp ops: `shfl` shuffle data within a warp
   - floating-point ops: `fadd` `fsub` `fmul` `fdiv` floating-point arithmetic ops
@@ -126,6 +126,17 @@ execute the same instruction in lockstep across multiple datapath lanes with eac
 ISAs: SIMT, SIMD, MIMD, SPMD, Vector Processor, Array Processor, Dataflow Architectures, and VLIW
 
 "In summary, the main differences lie in how these architectures exploit parallelism, whether through multiple threads, data parallelism, independent program execution, vectorized operations, array processing, dataflow principles, or compiler-driven scheduling. The choice of architecture depends on the specific requirements of the application and the desired balance between flexibility and efficiency."
+
+
+- x86 architectures: a family of ISAs that are based on the Intel 8086 microprocessor, but has evolved over time from 32-bit to 64-bit
+- both Intel and AMD use x86 architectures and they can generally execute the same set of basic instructions
+- Intel 64-bit x86-64 architecture is equivalent to AMD's AMD64.
+- Intel's SSE (Streaming SIMD Extensions) and AMD's 3DNow! are instruction set extensions for parallel processing, etc.
+- the equivalent hardware features: Intels' Hyper-Threading Technology and AMD's Simultaneous Multithreading (SMT) 
+- older software is generally compatible with newer processors 
+- newer software might not be compatible with older processors
+
+
 
 
 ...
@@ -200,7 +211,125 @@ microprocessors = CPUs
 
 - JIT output can run on my machine, but it sends piece by piece of machine code to my OS instead of optimizing machine code specifically for my OS and running quickly all at once 
 
+#todo
 remaining questions:
 - what is dynamic code generation, dynamic optimization, and dynamic adaptation? is this related to polymorphism and dynamic vs static runtimes?
 - whats the exact difference between JIT and interpreted? and JIT vs compiled?
   
+
+
+...
+
+
+
+...
+
+
+
+# Linking libraries
+
+### e.g. `libmgpu.a` is a static library file
+
+- it's compiled code for an MGPU
+- MGPU is a library that provides primitives for General-Purpose computing on GPUS (GPGPU) 
+- Modern GPGPU Primitives: operations such as parallel reductions, scans, sorts, & other parallel algorithms beyond graphics rendering
+- enables general-purpose programming to become parallel programming on GPUs
+- reminder: `libmgpu.a` is a static file
+- static library: collection of object code that is linked with a program at compile time
+- polymorphic code: changes binary or bytecode during runtime for security (it can react to new data)
+- static code: constant binary or bytecode (good for speed)
+- when you compile a program that uses `libmgpu.a`, the necessary code from the library is included in the executable
+- vs dynamic libraries: `.so` on Linux and `.dll` on Windows; library code is loaded at runtime
+- Linker: "link against it", e.g.: "Always refer to the documentation or accompanying information for the specific library to understand how to correctly use and link against it in your project."
+
+
+
+
+
+
+## Intrinsics and Built-ins
+
+- LLVM Intrinsics: target-specific SIMD which are lower-level functions than even C/C++
+- intrinsic: directly supported by the underlying hardware or compiler
+- vs. extrinsic: information carried by external actors
+- Clang built-ins are also known as compiler built-ins or compiler intrinsics, and they are not for specific target-architectures
+- Clang built-ins examples: branch prediction hints or population count operations
+- clang built-ins are included in headers
+
+- remember, Clang is an LLVM frontend for C/C++/Objective-C (gcc is a frontend and backend)
+- different compilers have different built-ins
+- clang built-ins support x86, ARM, etc.
+- e.g. of an LLVM intrinsic: `_mm_add_ps` for adding two vectors of 4 single-precision floating-point values using Streaming SIMD Extensions (SSE) instructions on x86 architectures
+- LLVM intrinsics are included via header files provided by LLVM or the specific target architecture
+- the header files declare the intrinsic functions and the developers use these functions in their code
+- header files are really just dependencies
+- each file has its own object file
+
+- this is how to include the `<immintrin.h>` header file:
+
+```c
+#include <immintrin.h>
+
+void vectorAdd(float *a, float *b, float *result, int size) {
+    for (int i = 0; i < size; i += 8) {
+        __m256 va = _mm256_loadu_ps(&a[i]);
+        __m256 vb = _mm256_loadu_ps(&b[i]);
+        __m256 result_vec = _mm256_add_ps(va, vb);
+        _mm256_storeu_ps(&result[i], result_vec);
+    }
+}
+```
+
+1. compile source code into an object file `main.o`
+2. then link with a static library like `libmgpu.a` (might have to include the other directories if the library has header files and they're in a different directory)
+3. `.o` is a native object file
+
+
+
+### big-picture of linking `libmgpu.a`
+
+1. LLVM Intrinsic (target-specific)
+2. Clang Built-Ins (not target-specific)
+3. Built-In Wrappers
+4. `libmgpu.a`
+5. NVIDIA GPU/AMD GPU
+
+1. CUDA Math API/ROCs Math API
+2. Vendor Wrapper
+4. `libmgpu.a`
+5. NVIDIA GPU/AMD GPU
+
+1. Architecture-Agnostic LIBC
+2. LIBC Wrappers
+3. `libmgpu.a`
+4. NVIDIA GPU/AMD GPU
+
+
+
+- LLVM Intrinsics: Target-specific SIMD which are lower-level functions than even C/C++
+- Non-target-specific Clang Built-Ins: `__builtin_expect`
+- Abstract interface
+- Modern primitives library of extra instructions
+- Specific hardware
+
+
+
+llvm intrinsic: (SIMD ISA)
+
+```c
+#include <immintrin.h>
+
+__m128 a = _mm_set_ps(4.0, 3.0, 2.0, 1.0);
+__m128 b = _mm_set_ps(8.0, 7.0, 6.0, 5.0);
+__m128 result = _mm_add_ps(a, b);
+```
+
+clang built-in:
+
+```c
+if (__builtin_expect(x > 0, 1)) {
+    // Likely branch
+} else {
+    // Unlikely branch
+}
+```
