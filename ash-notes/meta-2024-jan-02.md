@@ -187,3 +187,20 @@ microprocessors = CPUs
 - 
 
 
+...
+
+
+...
+
+
+...
+
+
+# JIT Interpreter vs Compiler
+
+- JIT output can run on my machine, but it sends piece by piece of machine code to my OS instead of optimizing machine code specifically for my OS and running quickly all at once 
+
+remaining questions:
+- what is dynamic code generation, dynamic optimization, and dynamic adaptation? is this related to polymorphism and dynamic vs static runtimes?
+- whats the exact difference between JIT and interpreted? and JIT vs compiled?
+  

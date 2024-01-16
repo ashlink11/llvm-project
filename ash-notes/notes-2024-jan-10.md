@@ -71,5 +71,3 @@ int main() {
 
 
 
-outstanding questions:
-- whats the difference between JIT and interpreted? and JIT vs compiled?
