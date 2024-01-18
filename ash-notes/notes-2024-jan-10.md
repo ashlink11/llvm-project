@@ -69,5 +69,45 @@ int main() {
   - `% ./hello.native`
 
 
+# to build a project
+#### https://llvm.org/docs/Projects.html#source-tree-layout
+
+uses:
+- LLVM header files
+- LLVM libraries
+- LLVM tools
+
+the project will have a source tree and an object tree
+
+source tree layout:
+- lib
+- include
+- tools
+- test
+
+lib:
+- all library source code
+- for each library that you build, you will have one directory in lib w the lib's source code
+- libs can be object files, archives, or dynamic libraries
+- convenient place so they can all get linked later
+
+include:
+- any header files that are global to your project (used by more than one library or executable of your project)
+- by placing your header files in include, they will be found automatically by the `LLVM build system`. for example, if you have a file `include/jazz/note.h`, then your source files can include it simply with `#include "jazz/note.h"`
+
+tools:
+- contains all of your source code for executables
+- for each program that you build, you will have one directory in tools that contain that programs source code
+
+test:
+- regression tests
+- optional package with benchmarks and programs that are known to compile with the Clang front end; (use this package for statistical information)
+
+build order:
+- lib first
+- then tools
 
 
+#todo:
+whats the difference between libraries and header files?
+what does it mean that tools contains all the source code for executables? so tools is the main program directory?
