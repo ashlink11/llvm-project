@@ -79,6 +79,52 @@ platform-dependent (software to hardware interface):
 
 hardware: pipeline, components, register-transfer layer represents hardware circuits and gates
 
+Wired.com: chip revolution needed (Jan 19, 2024)
+ - "model sizes that OpenAI and others have been releasing are growing way faster than chip capacity" (Moore's Law)
+  - $100m so far to train OpenAI algos
+  - expensive based on energy costs
+  - AI gold rush
+  - what are fundamentals of a chip? #todo: more research needed. super interesting
+
+Cornell University:
+- Peter McMahon
+- use light to compute information
+- Aspen, Colorado conference: Dutch researchers "mechanical cochlear implant" sound waves to power computations
+- chatbots are the first killer app
+
+Extropic: 
+- Guillaume Verdon
+- ex-Alphabet quantum researchers
+- in stealth
+- thermodynamic computing for AI
+- "neural computing tightly integrated in an analog thermodynamic chip"
+- full-stack thermodynamic paradigm
+- e/acc
+- "technocapital singularity"
+
+Normal Computing:
+- Google Brain and Alphabet's moonshot lab X veterans
+- first-principles of computing 
+- prototype exists
+- stochastic processing unit (SPU)
+- "exploits thermodynamic properties of electrical oscillatrs to perform calculations using random fluctuations that occur inside the circuits. that can generate random samples useful for computations or to solve linear algebra calculations" #todo: how?
+- efficient
+- good for statistical calculations
+- stochastic means "random": good for uncertainty / LLM hallucinations when unsure
+- we need better software architectures and hardware
+- at Alphabet: worked on quantum computing and AI together
+- exploit physics
+  
+Vaire Computing:
+- UK
+- silicon chips
+- "reversible computing": performing calculations without destroying information in the process #todo: what and how?
+- devised decades ago but never took off 
+- no.1 enemy: heat on the chip so cant easily make components smaller
+- "we have one order of magnitude left" quote
+- backed by 7percent Ventures
+
+
 NVIDIA: 
 
 - NVCC is a compiler for CUDA code. (NVIDIA CUDA Compiler Driver) and NVVM IR is within NVCC.
