@@ -102,7 +102,7 @@ Extropic:
 - e/acc
 - "technocapital singularity"
 
-Normal Computing:
+Normal Computing: 
 - Google Brain and Alphabet's moonshot lab X veterans
 - first-principles of computing 
 - prototype exists
@@ -123,7 +123,7 @@ Vaire Computing:
 - no.1 enemy: heat on the chip so cant easily make components smaller
 - "we have one order of magnitude left" quote
 - backed by 7percent Ventures
-
+- "we have one order of magnitude left"
 
 NVIDIA: 
 
