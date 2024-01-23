@@ -198,3 +198,37 @@ int main() {
 }
 
 ```
+
+
+# Breakdown
+
+- C++ program
+
+```cpp
+// This programs is a simple example that creates an LLVM module "from scratch",
+// emitting it as a bitcode file to standard out.  This is just to show how
+// LLVM projects work and to demonstrate some of the LLVM APIs.
+```
+
+- creates an LLVM module 
+- emit it as a bitcode file to stdout 
+- demonstrates some of the LLVM APIs
+
+- LLVM module
+- `llvm/cmake/modules: build config for llvm user-defined options. checks compiler version and linker flags`
+- `llvm/tools/llvm-link`: not surprisingly, links multiple LLVM modules into a single program (modules are compiler version and linker flags)
+- an LLVM module is a fundamental unit of compilation in the LLVM infrastructure
+- a module represents a single translation unit or source file in a program
+- it consists of IR code
+- each module contains functions, global variables, and other program structures
+- LLVM modules can be optimized and transformed independently before being linked together to form the final executable or library
+- the modular approach enables effective optimization and facilitates the development of compiler tools that operate on the LLVM IR
+- in summary, a module is a container for the IR of a program, providing a basis for optimization and codegen in the LLVM compilation process
+
+
+#todo next:
+1. review LLVM core components
+2. review LLVM tools
+3. review LLVM directory layout
+4. review LLVM module definition
+5. continue studying `ModuleMaker.cpp`

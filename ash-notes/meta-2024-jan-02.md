@@ -2,6 +2,10 @@ notes on notes
 
 algorithm: sequence of instructions
 
+# LLVM high-level
+
+compiler infrastructure designs for compile-time, link-time, runtime, and "idle time" optimizations of programs 
+
 # LLVM core components
 
 high-level lang 
