@@ -25,4 +25,18 @@ strategy
     - standalone
     - toy
     - transform
-    - 
+6. review LLVM infrastructure
+  - core components
+  - tools
+  - modules
+  - directory layout
+    - which dir has source code?
+    - which has bitcode?
+    - which has IR
+    - which has object files
+    - which has libc++
+    - where is clang
+    - where is LLD linker
+    - where is mc
+    - where are the asm libs
+  

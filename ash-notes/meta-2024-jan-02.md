@@ -6,7 +6,7 @@ algorithm: sequence of instructions
 
 compiler infrastructure designs for compile-time, link-time, runtime, and "idle time" optimizations of programs 
 
-# LLVM core components
+# LLVM process order of core components
 
 high-level lang 
 --> bitcode 
