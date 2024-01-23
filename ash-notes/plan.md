@@ -39,4 +39,15 @@ strategy
     - where is LLD linker
     - where is mc
     - where are the asm libs
-  
+  - make sense of this:
+    `/lib` (LLVM source files for its actual internal code) 
+    - Support(header files, e.g.: abstract data types (ADT))
+    - IR
+    - Transforms(IR-to-IR)
+    - Analysis (call graphs, natural loop identification)
+    - Bitcode
+    - Target(target architectures)
+    - CodeGen(instructions/scheduling/registers)
+    - AsmParser
+    - MC(machine code ASM/object-file emission)
+    - ExecutionEngine(interpreted/JIT)
