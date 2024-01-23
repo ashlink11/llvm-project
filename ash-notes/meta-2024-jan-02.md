@@ -83,6 +83,10 @@ platform-dependent (software to hardware interface):
 
 hardware: pipeline, components, register-transfer layer represents hardware circuits and gates
 
+
+
+# Wired article on chip revolution needed january 2024
+
 Wired.com: chip revolution needed (Jan 19, 2024)
  - "model sizes that OpenAI and others have been releasing are growing way faster than chip capacity" (Moore's Law)
   - $100m so far to train OpenAI algos

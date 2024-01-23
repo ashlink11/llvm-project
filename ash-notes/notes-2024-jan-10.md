@@ -108,9 +108,6 @@ build order:
 - then tools
 
 
-#todo:
-whats the difference between libraries and header files?
-what does it mean that tools contains all the source code for executables? so tools is the main program directory?
 
 
 # Studying first example project
@@ -226,9 +223,4 @@ int main() {
 - in summary, a module is a container for the IR of a program, providing a basis for optimization and codegen in the LLVM compilation process
 
 
-#todo next:
-1. review LLVM core components
-2. review LLVM tools
-3. review LLVM directory layout
-4. review LLVM module definition
-5. continue studying `ModuleMaker.cpp`
+

@@ -30,24 +30,72 @@ strategy
   - tools
   - modules
   - directory layout
-    - which dir has source code?
-    - which has bitcode?
-    - which has IR
-    - which has object files
+    - which dir has source code? `.c` and `.cpp`
+    - which has bitcode? `.bc`
+    - where are the header files? `.h`
+    - which has IR `.ll`
+    - which has object files `.o`
     - which has libc++
     - where is clang
     - where is LLD linker
-    - where is mc
-    - where are the asm libs
+    - where is mc 
+      - executable has no file extension or `.native` 
+      - call with `./executable-name` or `./executable-name.native`
+    - where are the asm files `.s` (are these always part of the linking phase?)
   - make sense of this:
     `/lib` (LLVM source files for its actual internal code) 
-    - Support(header files, e.g.: abstract data types (ADT))
-    - IR
-    - Transforms(IR-to-IR)
-    - Analysis (call graphs, natural loop identification)
-    - Bitcode
-    - Target(target architectures)
-    - CodeGen(instructions/scheduling/registers)
-    - AsmParser
-    - MC(machine code ASM/object-file emission)
-    - ExecutionEngine(interpreted/JIT)
+        >
+        Support(header files, e.g.: abstract data types (ADT))
+        >
+        IR
+        >
+        Transforms(IR-to-IR)
+        >
+        Analysis (call graphs, natural loop identification)
+        >
+        Bitcode
+        >
+        Target(target architectures)
+        >
+        CodeGen(instructions/scheduling/registers)
+        >
+        AsmParser
+        >
+        MC(machine code ASM/object-file emission)
+        >
+        ExecutionEngine(interpreted/JIT)
+7. review interpreter vs JIT vs compiler
+8. eventually review:
+   - entire software to hardware stack & process
+   - LLVM GPU lecture: entire process of linking/connecting GPU Math libraries 
+     - Math APIs
+       - NVIDIA CUDA Math
+       - AMD HIP Math
+     - Using:
+       - Vendor wrappers
+       - LLVM intrinsics --> Clang built-ins
+       - LIBC wrappers (for architecture-agnostic LIBC)
+     - which all use `libmgpu.a` lib modern primitives (what is `.a` file type?)
+       - whats the difference between `.s` and `.a`?
+     - then can go to NVIDIA and AMD GPUs 
+9. review Wired article on chip revolution needed january 2024
+  - universities
+  - companies
+  - future predictions
+10. why are the ModuleMaker project source files like this:
+    - lib
+    - include
+    - tools
+    - test 
+    - what is the build order?
+      - lib then tools
+      - (why do they not all get "built"?)
+11. more terminology & source files clarifications:
+    - what is a library, what are the different types of libraries, and what is `/lib`?
+    - "libraries can be object files, archives, or dynamic libraries" ?
+    - lib holds all library source code
+    - "for each library that you build, you will have one directory in lib w the lib's source code"
+    - "convenient place so they can all get linked later"
+    - whats the difference between libraries, dependencies, tools, and header files? include? 
+    - what does it mean that tools contains all the source code for executables? so tools is the main program directory?
+12. then continue reviewing `ModuleMaker` project code
