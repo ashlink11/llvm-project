@@ -98,4 +98,5 @@ strategy
     - "convenient place so they can all get linked later"
     - whats the difference between libraries, dependencies, tools, and header files? include? 
     - what does it mean that tools contains all the source code for executables? so tools is the main program directory?
-12. then continue reviewing `ModuleMaker` project code
+12. what are modules? (see meta-map and notes for more detail) 
+13. then continue reviewing `ModuleMaker` project code

@@ -1,5 +1,7 @@
 notes on notes
 
+# see `llvm-infrastructure-meta-map.JPG` in files for overview
+
 algorithm: sequence of instructions
 
 # LLVM high-level
