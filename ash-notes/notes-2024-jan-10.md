@@ -243,3 +243,16 @@ int main() {
   - 10 IR files
   - 1 Support file for raw output stream
 
+- "IR" is LLVM IR here, not abstract IR
+- used for building, manipulating, and analyzing IR code
+
+- `BasicBlock` class - basic IR block in the control flow graph
+- `Constants` - declarations for constant values such as integer and floating-point constants
+- `DerivedTypes` - defines derived types in IR such as arrays, pointers and structures
+- `Function` class - IR function representation
+- `InstrTypes` - instruction-related types
+- `Instruction` class - represents a single operation in IR
+- `LLVMContext` class - provides a context for various LLVM operations
+- `Module` class - a collection of functions
+- `Type` - defines various types such as an integer and floating-point types
+
