@@ -256,3 +256,54 @@ int main() {
 - `Module` class - a collection of functions
 - `Type` - defines various types such as an integer and floating-point types
 
+
+## `BasicBlock`
+
+- Control Flow Graph (CFG)
+  - directed graph
+  - nodes represent basic blocks
+  - edges represent the flow of control between these basic blocks
+  - entry node: starting point of the program
+  - exit node: where program terminates or branches to other functions
+- `BasicBlock`:
+  - contiguous sequences of instructions in a program with a single enry point and a single exit point (no loops)
+  - they are identified by labels or other markers and often consistent of a linear sequence of instructions
+  - typically end with a terminator instruction that determines the next block to be executed
+  - e.g. unconditional branches `br`, conditional branches `br i1 ...`, switches `switch`, and return instructions `ret`
+  - loops are identified by back edges in the CFG
+  - a back edge is an edge that points back to a previously visited node
+  - special constructs such as `invoke` and landing pads are used to represent function calls with exception handling
+  - for conditional branching, Phi nodes are used to merge values from different paths in the CFG
+- CFG using `BasicBlock` is structured view of how execution can progress, allowing compilers to reason about the program's behavior and apply transformations to improve performance or generate efficient machine code (#todo: research more of that). CFG is fundamental to LLVM IR.
+
+```cpp
+using namespace llvm;
+```
+
+- a C++ directive
+- brings the entire llvm namespace into scope
+- therefore, prefix names not needed in the program
+-  
+
+
+
+```cpp
+int main() {
+  ...
+  return 0; // successful program execution
+  // terminated without errors
+}
+```
+
+- in C++, the main program must return an int instead of being a void return like in Java
+
+
+```cpp
+LLVMContext Context;
+```
+
+- declares an object named `Context` of the type `LLVMContext`
+- the `LLVMContext` class is part of the LLVM API and represents a context for various LLVM-related operations
+- the object is created on the stack
+- assuming `LLVMContext` has a default constructor (no parameters), this initializes the `Context` object using that constructor
+- you can now create modules, functions, and other LLVM IR constructs
