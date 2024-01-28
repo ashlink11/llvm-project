@@ -307,3 +307,36 @@ LLVMContext Context;
 - the object is created on the stack
 - assuming `LLVMContext` has a default constructor (no parameters), this initializes the `Context` object using that constructor
 - you can now create modules, functions, and other LLVM IR constructs
+
+
+```cpp
+  // Create the "module" or "program" or "translation unit" to hold the
+  // function
+  Module *M = new Module("test", Context);
+```
+
+- using the LLVM API to create a module
+- module name is `test`
+- module is a container for program definitions
+- holds functions, global variables and other program-related entities
+- upon initialization, dynamically allocates memory for a new module with the name test and using the Context, then returns a pointer, which we assign to `M`
+- in C++, allocate with `new` and deallocate/free memory properly with `delete M;` to avoid memory leaks
+- `*` declares a pointer
+- `M` is the declared variable of type "pointer to Module"
+- dynamic allocation means we can can reduce or increase the amount of information stored for this Context object
+- "If you're using modern C++, consider using smart pointers (e.g., `std::unique_ptr`) instead of raw pointers to help manage memory automatically."
+
+
+```cpp
+  // Create the main function: first create the type 'int ()'
+  FunctionType *FT =
+    FunctionType::get(Type::getInt32Ty(Context), /*not vararg*/false);
+```
+
+- create a function type with the static method `FunctionType::get` from the `FunctionType` class
+  - takes two parameters:
+  - one: `Type::getInt32Ty(Context)` specifies the return type of the function, it's an `int` type, specifically an LLVM integer type of 32 bits in the given context
+  - two: `/*not vararg*/false` specifies whether the function takes a variable number of arguments (variadic). here, it's set to `false`, indicating the function is not variadic
+- `FunctionType *FT`: declares a pointed to a `FunctionType` object named `FT` and is assigned the function type created by `FunctionType::get`
+- summary: this is setting up the type information for the main function signature of parameter types and return type. because it is false to variadic, the main function takes no parameters: `int main()`.
+- then set up basic blocks and define instructions within those blocks to implement the logic of the program
