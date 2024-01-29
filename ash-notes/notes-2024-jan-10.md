@@ -325,6 +325,10 @@ LLVMContext Context;
 - `M` is the declared variable of type "pointer to Module"
 - dynamic allocation means we can can reduce or increase the amount of information stored for this Context object
 - "If you're using modern C++, consider using smart pointers (e.g., `std::unique_ptr`) instead of raw pointers to help manage memory automatically."
+- "A module in LLVM represents a translation unit or a compiled source file."
+- therefore, it's either a source or compiled single file:
+  - a translation unit: one single file of source code, along with its headers and included files (dependencies, libraries, etc. I think #todo: check on that)
+  - a compiled source file
 
 
 ```cpp
@@ -340,3 +344,15 @@ LLVMContext Context;
 - `FunctionType *FT`: declares a pointed to a `FunctionType` object named `FT` and is assigned the function type created by `FunctionType::get`
 - summary: this is setting up the type information for the main function signature of parameter types and return type. because it is false to variadic, the main function takes no parameters: `int main()`.
 - then set up basic blocks and define instructions within those blocks to implement the logic of the program
+
+
+```cpp
+  // By passing a module as the last parameter to the Function constructor,
+  // it automatically gets appended to the Module.
+  Function *F = Function::Create(FT, Function::ExternalLinkage, "main", M);
+```
+
+- the `FT` function type was declared in the previous line
+- `Function::ExternalLinkage` specifies the linkage type for the function. in this case, it's set to external linkage, meaning that the function can be references by other modules, i.e. if I create a module other than `Context` for some reason, it can still call this `int main()`
+- the pointer to `Context` is `M`, so we use that for the argument in this line
+- this actually creates the `main` function
