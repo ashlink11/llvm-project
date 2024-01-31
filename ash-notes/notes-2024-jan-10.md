@@ -356,3 +356,20 @@ LLVMContext Context;
 - `Function::ExternalLinkage` specifies the linkage type for the function. in this case, it's set to external linkage, meaning that the function can be references by other modules, i.e. if I create a module other than `Context` for some reason, it can still call this `int main()`
 - the pointer to `Context` is `M`, so we use that for the argument in this line
 - this actually creates the `main` function
+
+
+```cpp
+  // Add a basic block to the function... again, it automatically inserts
+  // because of the last argument.
+  BasicBlock *BB = BasicBlock::Create(Context, "EntryBlock", F);
+```
+
+- `BasicBlock::Create(LLVMContext object, name, pointer)`
+- reminder: basic block is a sequence of instructions with a single entry point and a single exit point
+- fundamental building block in control flow
+- Context is a container for objects and settings. manages global data and settings.
+- name is `EntryBlock` 
+- `F` is the pointer to the main function, and this new instruction will be part of this main function
+- `BB` is the pointer to this new basic block
+- 
+  
