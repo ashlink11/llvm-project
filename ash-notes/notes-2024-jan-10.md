@@ -373,3 +373,70 @@ LLVMContext Context;
 - `BB` is the pointer to this new basic block
 - 
   
+
+```cpp
+  // Get pointers to the constant integers...
+  Value *Two = ConstantInt::get(Type::getInt32Ty(Context), 2);
+  Value *Three = ConstantInt::get(Type::getInt32Ty(Context), 3);
+```
+
+- `ConstantInt` is an LLVM class
+- the type of the pointer instantiated is `Value`, (#todo: this is interesting. want to learn more.)
+- the constant integer values `Two` and `Three` can be used in constructing basic blocks, building LLVM instructions and functions, and representing constants in the LLVM IR
+- essentially we need to create LLVM objects, types, etc., of all parts of the C++ program
+
+
+```cpp
+  // Create the add instruction... does not insert...
+  Instruction *Add = BinaryOperator::Create(Instruction::Add, Two, Three,
+                                            "addresult");
+```
+
+- the `BinaryOperator` class has the static method `::Create` and can create addition and subtraction in LLVM IR
+  - binary here isn't related to base-2
+  - binary means it takes two operands (two elements) and performs operations on them
+  - as a side note: binary arithmetic does use the binary numeral system with 0s and 1s. the fundamental operations are addition, subtraction, multiplication, and division of binary numbers.
+  - in contrast, a unary operation involves one operand and ternary operations involve three operands
+- `Instruction::Add` is an actual IR instruction, and once created, can then be inserted into basic blocks within a function
+- the pointers are passed in
+- the instruction has a name `addresult`, which can be used for debugging and readability, but a name is optional
+- the pointer to the new `Instruction` type object is `Add`
+
+
+```cpp
+  // explicitly insert it into the basic block...
+  Add->insertInto(BB, BB->end());
+
+  // Create the return instruction and add it to the basic block
+  ReturnInst::Create(Context, Add)->insertInto(BB, BB->end());
+
+  // Output the bitcode file to stdout
+  WriteBitcodeToFile(*M, outs());
+
+  // Delete the module and all of its contents.
+  delete M;
+  return 0;
+```
+
+- `->insertInto` is C++ function syntax
+- the `->` arrow operator is used to access a member of an object through a pointer (either an instance variable or member method) it's shorthand for dereferencing a pointer and accessing a member or invoking a method. 
+- the object that `Add` points to is type `Instruction`, so we can evoke the `insertInto` function because it's a member function of the `Instruction` class. it's used to insert the instruction into a specified position within a basic block
+- it inserts the instruction into the basic block specified by `BB` at the position indicated by `BB->end()`
+- what's interesting is that I didn't have to insert the values into the basic block because the addition instruction contains references to them. seems dangerous to me in terms of side effects. in Rust i think those values would be borrowed so no other instruction could access them.
+- `end()` is "an iterator pointing to the end of the basic block". iterator allows you to iterate over the elements of a container.
+
+- `ReturnInst::Create` is a static method and NOT a member method of the BB object
+- the `ReturnInst` is a separate object from the `BinaryOperator` object
+
+- you write the bitcode of a whole module to a file or stream
+- `outs()` prints to the console or terminal instead of writing to a file
+- the bitcode will include:
+  - module information like the target triple, data layout, and other module-level metadata
+  - global variables, global constants
+  - definitions of data types
+  - debugging information, optimization hints, or other annotations
+  - a symbol table that maps names to entities in the module
+  - information required for proper linking and execution within the LLVM framework
+- you can inspect the bitcode with `llvm-dis` (the IR disassembler) or `llvm-nm` (the symbol table viewer), then it'll output a human-readable representation of the LLVM IR, metadata, and other info stored in the bitcode, e.g. `llvm-dis myModule.bc -o myModule.ll` (writes to the `.ll` file) then you can see the components
+
+- the module owns its basic blocks, functions, instructions, and other elements, which all get deleted if you delete the module
