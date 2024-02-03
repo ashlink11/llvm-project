@@ -100,3 +100,5 @@ strategy
     - what does it mean that tools contains all the source code for executables? so tools is the main program directory?
 12. what are modules? (see meta-map and notes for more detail) 
 13. then continue reviewing `ModuleMaker` project code
+14. review all ModuleMaker code
+15. do the CMake tutorial https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.html
