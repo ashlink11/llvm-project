@@ -102,3 +102,18 @@ strategy
 13. then continue reviewing `ModuleMaker` project code
 14. review all ModuleMaker code
 15. do the CMake tutorial https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.html
+
+Thurs Feb 8, 2024 - I learned you can write SIMD intructions directly in Mojo
+
+Next steps:
+- read the modular documentation on SIMD programming, start here: https://www.modular.com/blog/outperforming-rust-benchmarks-with-mojo 
+- figure out CMake so I can start running LLVM projects
+  - how many LLVM installs do i have? where are they?
+    - native
+    - github clone
+    - homebrew install
+  - what is my CMake config?
+    - VSCode extension auto-opens
+    - try running it somewhere out of VSCode?
+  - learn more of CMake from their tutorials
+  - analyze my LLVM project so i can make a custom CMake config
