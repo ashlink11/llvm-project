@@ -438,3 +438,21 @@ int main() {
 }
 ```
 
+
+# functional concepts
+
+metaphor of monads being a burrito where you lift data via monads so you can log it
+
+"The metaphor of a burrito is often used to explain monads, particularly in the context of the IO monad in functional programming languages like Haskell. In this metaphor, imagine that you have a burrito (representing your computation or data) wrapped in layers of tortilla (representing the monadic context). Each layer of the tortilla represents a different context or effect that your computation might have, such as I/O, error handling, or state.
+
+Here's how the metaphor of a burrito relates to the concept of lifting data and logging it using monads:
+
+Lifting Data: Imagine you have some data (let's say ingredients for your burrito) that you want to include in your computation. Before you can use this data in a monadic context, you need to lift it into the monad. This is similar to wrapping your ingredients in layers of tortilla to create the burrito. Once the data is wrapped in the monadic context, it becomes part of the computation and can be passed around and manipulated within that context.
+
+Logging: Now, let's say you want to log some information (maybe the cooking process or the ingredients used) as part of your computation. You can do this by embedding logging actions within the monadic context. Each time you perform a logging action, it adds another layer to the tortilla, representing the logging context. Just like each layer of tortilla in a burrito contains a different ingredient, each layer of the monadic context contains a different effect, such as logging.
+
+Sequential Composition: As you add more layers to your burrito (or monadic context), you can still compose your computation sequentially, just like you can still unwrap and eat your burrito layer by layer. This is where the bind operation comes into play. It allows you to chain together computations within the monadic context, ensuring that each layer of the tortilla is peeled off and processed sequentially.
+
+Handling Effects: By wrapping your computation in layers of tortilla (or monadic context), you can manage different effects such as logging, I/O, or error handling in a controlled and modular way. This separation of concerns allows you to write pure, declarative code while still handling side effects in a functional manner.
+
+In summary, the burrito metaphor helps illustrate how monads allow you to lift data into a monadic context and perform actions such as logging within that context, all while maintaining composability and modularity in your code."
