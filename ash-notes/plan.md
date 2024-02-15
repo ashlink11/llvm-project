@@ -106,7 +106,9 @@ strategy
 Thurs Feb 8, 2024 - I learned you can write SIMD intructions directly in Mojo
 
 Next steps:
-- read the modular documentation on SIMD programming, start here: https://www.modular.com/blog/outperforming-rust-benchmarks-with-mojo 
+- read the modular documentation on SIMD programming, 
+  - start here: https://www.modular.com/blog/outperforming-rust-benchmarks-with-mojo 
+  - https://docs.modular.com/mojo/
 - figure out CMake so I can start running LLVM projects
   - how many LLVM installs do i have? where are they?
     - native
