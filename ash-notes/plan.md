@@ -1,11 +1,11 @@
 strategy
 
-1. testing main branch updates against branch
-2. directory structure
-3. meta-understanding of hardware-to-software process (both open-source and proprietary)
-4. step-by-step from beginning (setup & simple example) - find example with MLIR if possible (found some but do this later)
+1. testing main branch updates against branch (done)
+2. directory structure (done)
+3. study meta-understanding of hardware-to-software process (both open-source and proprietary) (done)
+4. step-by-step from beginning (setup & simple example) - find example with MLIR if possible (found some but do this later) (todo)
   - https://github.com/ashlink11/llvm-project/tree/main/mlir/examples 
-5. explore an example project directory at a high-level now that i know the four sub-directory structure
+5. explore an example project directory at a high-level now that i know the four sub-directory structure (some done; todo)
   - figure out if all projects use CMake https://github.com/ashlink11/llvm-project/blob/main/llvm/projects/CMakeLists.txt 
   - which LLVM example project is the simplest? (sidenote: they all have `CMakeLists.txt` files)
     - Bye has 70 lines 
@@ -25,12 +25,12 @@ strategy
     - standalone
     - toy
     - transform
-6. review LLVM infrastructure
+6. review LLVM infrastructure (some done; todo)
   - core components
   - tools
   - modules
-  - directory layout
-    - which dir has source code? `.c` and `.cpp`
+  - directory layout of a project (can only figure out when i finally run my first project with CMake) (some done; todo)
+    - which dir has source code? `.c` and `.cpp` 
     - which has bitcode? `.bc`
     - where are the header files? `.h`
     - which has IR `.ll`
@@ -42,7 +42,7 @@ strategy
       - executable has no file extension or `.native` 
       - call with `./executable-name` or `./executable-name.native`
     - where are the asm files `.s` (are these always part of the linking phase?)
-  - make sense of this:
+  - make more sense of this compilation process (some done; todo):
     `/lib` (LLVM source files for its actual internal code) 
         >
         Support(header files, e.g.: abstract data types (ADT))
@@ -64,8 +64,8 @@ strategy
         MC(machine code ASM/object-file emission)
         >
         ExecutionEngine(interpreted/JIT)
-7. review interpreter vs JIT vs compiler
-8. eventually review:
+7. review interpreter vs JIT vs compiler (todo)
+8. eventually review: (todo in future)
    - entire software to hardware stack & process
    - LLVM GPU lecture: entire process of linking/connecting GPU Math libraries 
      - Math APIs
@@ -78,11 +78,11 @@ strategy
      - which all use `libmgpu.a` lib modern primitives (what is `.a` file type?)
        - whats the difference between `.s` and `.a`?
      - then can go to NVIDIA and AMD GPUs 
-9. review Wired article on chip revolution needed january 2024
+9. review Wired article on chip revolution needed january 2024 (done)
   - universities
   - companies
   - future predictions
-10. why are the ModuleMaker project source files like this:
+10. why are the ModuleMaker project source files like this: (some done; todo -- see #6 which is almost identical)
     - lib
     - include
     - tools
@@ -90,7 +90,7 @@ strategy
     - what is the build order?
       - lib then tools
       - (why do they not all get "built"?)
-11. more terminology & source files clarifications:
+11. more terminology & source files clarifications: (some done; todo-- see $6 and #10)
     - what is a library, what are the different types of libraries, and what is `/lib`?
     - "libraries can be object files, archives, or dynamic libraries" ?
     - lib holds all library source code
@@ -98,26 +98,30 @@ strategy
     - "convenient place so they can all get linked later"
     - whats the difference between libraries, dependencies, tools, and header files? include? 
     - what does it mean that tools contains all the source code for executables? so tools is the main program directory?
-12. what are modules? (see meta-map and notes for more detail) 
-13. then continue reviewing `ModuleMaker` project code
-14. review all ModuleMaker code
-15. do the CMake tutorial https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.html
-
-Thurs Feb 8, 2024 - I learned you can write SIMD intructions directly in Mojo
-
-Next steps:
-- read the modular documentation on SIMD programming, 
+12. what are modules? (see meta-map and notes for more detail) (some done; todo)
+13. then continue reviewing `ModuleMaker` project code (some done; todo)
+14. review all ModuleMaker code (some done; todo)
+15. do the CMake tutorials https://cmake.org/cmake/help/latest/guide/tutorial/A%20Basic%20Starting%20Point.html (some done; todo)
+16. read the modular documentation on SIMD programming
+  - Thurs Feb 8, 2024 - I learned you can write SIMD intructions directly in Mojo
   - start here: https://www.modular.com/blog/outperforming-rust-benchmarks-with-mojo 
-  - https://docs.modular.com/mojo/
-- figure out CMake so I can start running LLVM projects
-  - how many LLVM installs do i have? where are they?
+  - https://docs.modular.com/mojo/ can use virtual Jupyter notebooks - support coming soon for macOS VSCode
+17. how many LLVM installs do i have? where are they? 
     - native
     - github clone
     - homebrew install
-  - what is my CMake config?
+    - does CMake install it? (i.e. from where?)
+18. figure out CMake so I can start running LLVM projects (some done; todo)
+  - what is my CMake config? which is compatible/current?
     - VSCode extension auto-opens
     - try running it somewhere out of VSCode?
-  - learn more of CMake from their tutorials
-  - analyze my LLVM project so i can make a custom CMake config
+    - Xcode 
+  - learn more of CMake from their tutorials (minimum viable)
+    - analyze my LLVM project so i can make a custom CMake config
+    - find other similar projects online for their configs
 
-
+Most important next steps:
+1. (#6, #10, #17, #18) learn which is the proper LLVM installation - intertwined with CMake config
+2. (#16) check out Mojo more so I can aim towards: 
+   - LLVM --> MLIR --> Mojo (compiler frontend - IR)
+   - SIMT --> CUDA API (compiler backend - actual ISA)
