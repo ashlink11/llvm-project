@@ -110,7 +110,7 @@ strategy
     - native
     - github clone
     - homebrew install
-    - does CMake install it? (i.e. from where?)
+    - does CMake generate it? (i.e. from where?)
 18. figure out CMake so I can start running LLVM projects (some done; todo)
   - what is my CMake config? which is compatible/current?
     - VSCode extension auto-opens
@@ -119,9 +119,10 @@ strategy
   - learn more of CMake from their tutorials (minimum viable)
     - analyze my LLVM project so i can make a custom CMake config
     - find other similar projects online for their configs
+19. do i need to be able to see all the header/lib files in the LLVM source install? or are some generated with CMake? 
 
 Most important next steps:
-1. (#6, #10, #17, #18) learn which is the proper LLVM installation - intertwined with CMake config
+1. (#6, #10, #11, #13, #17, #18, #19) learn which is the proper LLVM installation - intertwined with CMake config
 2. (#16) check out Mojo more so I can aim towards: 
    - LLVM --> MLIR --> Mojo (compiler frontend - IR)
    - SIMT --> CUDA API (compiler backend - actual ISA)
