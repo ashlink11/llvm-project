@@ -70,7 +70,7 @@ result: look for next bash commands to find/create source & project root dirs on
 
 
 
-### next steps:
+### next steps: (sun feb 25, 2024)
 - make sure I dont have `XCode` still installed from old macOS versions
 - explore LLVM compiler browser envs too
 - check `homebrew clang` and `git clone` are the same version
@@ -361,3 +361,177 @@ echo $PATH
 
 - above are the places where FHS looks for clang, so i need to research this next
 - does look like its searching `/opt/` first though
+
+
+
+### next steps: (mon feb 26, 2024)
+- explore LLVM compiler browser envs too
+- continue with `homebrew` method?
+- continue with `git clone` method?
+- understand `$PATH` config
+- should I create my own CMake config or use the VSCode CMake tools extension?
+
+what `echo $PATH` returns:
+- various executables, including compilers, interpreters, system utilities, system utility directories, development tool directories, or custom script directories, etc.
+
+> "By default, your LLVM project will not use the code from your local Git repository, regardless of its location. It will instead use the installed LLVM version present in your system's $PATH."
+> "Downloading the llvm-project repository from Git is primarily for development purposes and not directly for running existing projects."
+> "In specific cases, you might need a particular LLVM version not readily available in your system's package manager. Downloading the repository allows you to build and install a custom version tailored to your project's requirements."
+> "You would need to configure and compile the entire LLVM suite, including Clang, libraries, and other tools. This can be a time-consuming and involved process."
+> "Pre-built binary distributions or packages from your system's package manager often provide a simpler and more reliable way to obtain the necessary LLVM tools for running projects."
+
+
+use these for my CMake config to find the llvm/clang installed on my system
+
+```
+find_package(Clang REQUIRED)
+target_link_libraries(my_project PRIVATE Clang)
+```
+
+then: ("how should i write my cmake config?")
+
+```
+project(my_project)
+
+
+// depending on whether you're building an executable or library:
+add_executable(my_executable main.cpp other_file.cpp)
+// or 
+add_library(my_library source1.cpp source2.cpp)
+
+
+//Target Configuration: Use 
+target_link_libraries(my_executable PRIVATE my_library) 
+// to link your executable against your library or other external libraries found by find_package().
+
+
+// Install Targets: Use 
+install(TARGETS my_executable my_library DESTINATION bin)
+// to specify where to install executables and libraries during the build process.
+```
+
+result of the VSCode CMake tools extension:
+
+```
+No current configuration is defined in the workspace state. Assuming 'Default'.
+No target defined in the workspace state. Assuming 'Default'.
+Dropping various extension output files at /Users/ash/Library/Application Support/Code/User/workspaceStorage/6517dd5d9245451cd6111a4d2aee3d59/ms-vscode.makefile-tools
+Logging level: Normal
+Configurations cached at /Users/ash/Library/Application Support/Code/User/workspaceStorage/6517dd5d9245451cd6111a4d2aee3d59/ms-vscode.makefile-tools/configurationCache.log
+No path to the makefile is defined in the settings file.
+No folder path to the makefile is defined in the settings file.
+Always pre-configure: false
+Always post-configure: false
+Dry-run switches: '--always-make', '--keep-going', '--print-directory'
+No current launch configuration is set in the workspace state.
+Default launch configuration: MIMode = undefined,
+                    miDebuggerPath = undefined,
+                    stopAtEntry = undefined,
+                    symbolSearchPath = undefined
+Configure on open: true
+Configure on edit: true
+Configure after command: true
+Only .PHONY targets: false
+Save before build or configure: true
+Build before launch: true
+Clear output before build: true
+Ignore directory commands: true
+compile_commands.json path: null
+Deduced command 'make ' for configuration "Default"
+The Makefile Tools extension process of configuring your project is about to run 'make --dry-run' in order to parse the output for useful information. This is needed to calculate accurate IntelliSense and targets information. Although in general 'make --dry-run' only lists (without executing) the operations 'make' would do in the current context, it is still possible some code to be executed, like $(shell) syntax in the makefile or recursive invocations of the $(MAKE) variable.
+If you don't feel comfortable allowing this configure process and 'make --dry-run' to be invoked by the extension, you can chose a recent full, clean, verbose and up-to-date build log as an alternative, via the setting 'makefile.buildLog'. 
+```
+
+- looks like ^ can't find my makefile because I gave it the wrong path, so it assumes default
+
+- this is my new `CMakeLists.txt` files:
+
+```
+find_package(Clang REQUIRED)
+target_link_libraries(ModuleMakerTest PRIVATE Clang)
+
+project(ModuleMakerTest)
+
+
+# depending on whether you're building an executable or library:
+add_executable(adder ModuleMakerTest.cpp)
+# or 
+# add_library(my_library source1.cpp source2.cpp)
+
+# Executable Name: This refers to the specific file generated after compilation, the actual program you run. It can be descriptive, but doesn't necessarily need to directly reflect the entire project name.
+
+# do i have any external libraries?
+# //Target Configuration: Use 
+# target_link_libraries(my_executable PRIVATE my_library) 
+# // to link your executable against your library or other external libraries found by find_package().
+
+# i think the auto build dir is sufficient
+# // Install Targets: Use 
+# install(TARGETS my_executable my_library DESTINATION bin)
+# // to specify where to install executables and libraries during the build process.
+```
+
+
+- attempting to run `ModuleMakerTest` repo code:
+
+1. build:
+
+```bash
+cmake .
+```
+result:
+```bash
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/ash/dev/ModuleMakerTest
+```
+
+2. compile:
+
+```bash
+make
+```
+
+result: (lots of the same errors)
+
+```bash
+error: unknown type name
+""
+""
+```
+
+plus, in my source file:
+
+```bash
+#include errors detected. Please update your includePath. Squiggles are disabled for this translation unit (/Users/ash/dev/ModuleMakerTest/ModuleMakerTest.cpp).C/C++(1696)
+cannot open source file "llvm/Bitcode/BitcodeWriter.h"C/C++(1696)
+```
+
+to fix:
+
+```bash
+brew install llvm
+```
+result:
+```bash
+Warning: llvm 17.0.6_1 is already installed and up-to-date.
+To reinstall 17.0.6_1, run:
+  brew reinstall llvm
+```
+
+- Q: is `17.0.6_1` the same as `17.0.6` ??? #todo
+
+> "Pre-built Binaries: Alternatively, you can download and install pre-built binary packages from the official LLVM website (https://releases.llvm.org/download.html). This often requires additional configuration to set up environment variables and integration with your build system."
+
+- instructions: (afterfrom `git clone llvm-project`)
+
+```bash
+cd llvm-project
+
+cmake -S llvm -B build -G <generator> [options]
+```
+
+- i've tried this a lot. maybe i could try configuring it properly. i wonder why i dont have the proper dev libraries installed in my native system #todo
+
+next steps: 
+- learn how to install the proper llvm dev libraries 
