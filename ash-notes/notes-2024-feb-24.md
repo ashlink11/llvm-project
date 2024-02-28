@@ -535,3 +535,181 @@ cmake -S llvm -B build -G <generator> [options]
 
 next steps: 
 - learn how to install the proper llvm dev libraries 
+
+
+# next day (wed feb 28)
+
+- "You can search for specific libraries like `libclang.dylib`, `libLLVM.dylib`, etc., in their usual locations, such as /usr/lib or directories within the Xcode installation path."
+- If you encounter missing libraries when trying to build your project, consider using a package manager like Homebrew (https://brew.sh/) to install specific versions of LLVM/Clang.
+- Refer to your project's documentation or online resources for specific library requirements and build instructions.
+- "Try building your project using the appropriate build commands (e.g., `cmake .. && make` or instructions specific to your project)."
+- "Look through the source code (especially C++ files) for code blocks mentioning libraries using keywords like `#pragma comment(lib, "...")` or functions like `extern "C" { ... }`. These sections might indicate the libraries your project depends on."
+- "missing the header file `BitcodeWriter.h`, which is part of the LLVM Bitcode library."
+- "The specific library name may vary slightly depending on your system and LLVM version. It's typically named `libLLVMBitWriter.a` or `libLLVMBitWriter.dylib`"
+- "CMake should locate the library automatically if it's installed in a standard location. If not, you might need to specify the path to the library using `find_library` or similar commands.
+- Compiling manually: Use the appropriate compiler flags to link against the library. For example, with the Clang compiler, you'd use the `-lLLVMBitWriter` flag."
+- "Ensure your compiler/build system is searching in the correct locations for libraries. You may need to adjust library search paths in your build settings."
+- "If you encounter specific errors, search for solutions online in forums like LLVM Discourse [llvm dev forum](https://discourse.llvm.org/) or relevant communities."
+
+
+### attempt at high-level CMake understanding
+
+- [2023 llvm yt advanced CMake for Windows](https://www.youtube.com/watch?v=zlD2MpU7XIw)
+- [llvm.org ASM/.a/assembly lang reference manual with high-level module, etc. structure, instruction reference, intrinsics functions reference, ](https://llvm.org/docs/LangRef.html)
+- [Getting Started with LLVM Core Libraries 2014 book](https://www.amazon.com/dp/1782166920/ref=sm_n_se_dkp_DZ_pr_sea_0_0)
+  - "Configure, build, and install extra LLVM open source projects including Clang tools, static analyzer, Compiler-RT, LLDB, DragonEgg, libc++, and LLVM test-suite"
+  - "Understand the LLVM library design and interaction between libraries and standalone tools"
+- [VSCode remote-SSH virtual machine setup tutorial](https://www.linaro.org/blog/how-to-set-up-vs-code-for-llvm-development/)
+  - all VSCode extensions to install
+  - add LLVM JSON configs for custom compiler kits
+  - select a kit
+  - select a variance
+- [C++ CMake and VSCode tutorial extremely simple program with a library](https://computingonplains.wordpress.com/building-c-applications-with-cmake-and-visual-studio-code/)
+- [C++ Cmake and VScode github source code for extremely simple program tutorial for Windows with MSVC compiler](https://github.com/gvcallen/CMake-VSCode-Tutorial)
+  - CPP-Tools extension
+  - CMake Tools extension
+  - CMake extension
+- [C++ Cmake and VScode extremely simple program tutorial](https://medium.com/@sam.romano18/visual-studio-code-setup-for-beginners-using-c-and-cmake-e92ab4f1fba1)
+  - tasks.json file crucial to compiling
+  - extremely simple cpp code and CMake config 
+
+
+### continuing
+
+identify included libraries in `clang llvm` install:
+- "this command lists all the available LLVM libraries, including C++ and object-oriented interface (OOI) libraries":
+
+```bash
+llvm-config --libs
+
+>_ -lLLVM-17
+```
+
+- identify libs in `/usr/local/lib`
+- "look for `.a` (static libraries) or `.dylib` (dynamic libraries) prefixed with `libclan`g or `libLLVM`. These files represent the available libraries."
+  
+```bash
+ls
+
+>_ cmake
+docker
+dtrace
+engines-3
+gettext
+libasprintf.0.dylib
+libasprintf.a
+libasprintf.dylib
+libbinaryen.dylib
+libbrotlicommon.1.1.0.dylib
+libbrotlicommon.1.dylib
+libbrotlicommon.dylib
+libbrotlidec.1.1.0.dylib
+libbrotlidec.1.dylib
+libbrotlidec.dylib
+libbrotlienc.1.1.0.dylib
+libbrotlienc.1.dylib
+libbrotlienc.dylib
+libcares.2.11.0.dylib
+libcares.2.dylib
+libcares.dylib
+libcares_static.a
+libcrypto.3.dylib
+libcrypto.a
+libcrypto.dylib
+libev.4.dylib
+libev.a
+libev.dylib
+libgettextlib-0.21.dylib
+libgettextlib.dylib
+libgettextpo.0.dylib
+libgettextpo.a
+libgettextpo.dylib
+libgettextsrc-0.21.dylib
+libgettextsrc.dylib
+libidn2.0.dylib
+libidn2.a
+libidn2.dylib
+libintl.8.dylib
+libintl.a
+libintl.dylib
+libjemalloc.2.dylib
+libjemalloc.a
+libjemalloc.dylib
+libjemalloc_pic.a
+liblz4.1.9.4.dylib
+liblz4.1.dylib
+liblz4.a
+liblz4.dylib
+liblzma.5.dylib
+liblzma.a
+liblzma.dylib
+libmpdec++.4.0.0.dylib
+libmpdec++.4.dylib
+libmpdec++.a
+libmpdec++.dylib
+libmpdec.4.0.0.dylib
+libmpdec.4.dylib
+libmpdec.a
+libmpdec.dylib
+libnghttp2.14.dylib
+libnghttp2.a
+libnghttp2.dylib
+libpcre2-16.0.dylib
+libpcre2-16.a
+libpcre2-16.dylib
+libpcre2-32.0.dylib
+libpcre2-32.a
+libpcre2-32.dylib
+libpcre2-8.0.dylib
+libpcre2-8.a
+libpcre2-8.dylib
+libpcre2-posix.3.dylib
+libpcre2-posix.a
+libpcre2-posix.dylib
+libssl.3.dylib
+libssl.a
+libssl.dylib
+libtextstyle.0.dylib
+libtextstyle.a
+libtextstyle.dylib
+libunistring.2.dylib
+libunistring.a
+libunistring.dylib
+libuv.1.dylib
+libuv.a
+libuv.dylib
+libz3.4.12.5.0.dylib
+libz3.4.12.dylib
+libz3.dylib
+libzstd.1.5.5.dylib
+libzstd.1.dylib
+libzstd.a
+libzstd.dylib
+node_modules
+ossl-modules
+pkgconfig
+python3.12
+```
+
+
+- locating a specific library (the one from my `make` error):
+
+```bash
+locate libLLVMBitWriter
+
+>_ WARNING: The locate database (/var/db/locate.database) does not exist.
+To create the database, run the following command:
+
+  sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+
+Please be aware that the database can take some time to generate; once
+the database has been created, this message will no longer appear.
+```
+
+- ^it's a database??? what is an LLVM lib database??? (#todo)
+- "If the library isn't in a standard path, provide its location: CMake: Use `target_link_directories` or set `CMAKE_LIBRARY_PATH`.
+- (copying from above) 
+  - "CMake should locate the library automatically if it's installed in a standard location. If not, you might need to specify the path to the library using `find_library` or similar commands.
+  - Compiling manually: Use the appropriate compiler flags to link against the library. For example, with the Clang compiler, you'd use the `-lLLVMBitWriter` flag."
+- "Header path: Ensure the path to LLVM headers is included in your compiler's search paths. Use compiler flags like `-I/path/to/llvm/include`."
+- don't forget [LLVM docs](https://llvm.org/docs/)
