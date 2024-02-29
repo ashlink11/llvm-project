@@ -713,3 +713,120 @@ the database has been created, this message will no longer appear.
   - Compiling manually: Use the appropriate compiler flags to link against the library. For example, with the Clang compiler, you'd use the `-lLLVMBitWriter` flag."
 - "Header path: Ensure the path to LLVM headers is included in your compiler's search paths. Use compiler flags like `-I/path/to/llvm/include`."
 - don't forget [LLVM docs](https://llvm.org/docs/)
+
+
+# next day (thurs feb 29, 2024)
+
+- missing header error: "onfigure your compiler to include the LLVM header directory during compilation. You can do this by setting the `includePath` in your makefile or using compiler flags like `-I/path/to/include` (replace `/path/to/include` with the actual LLVM `include` directory)."
+- i think path to the header is `/usr/local/opt/llvm/include/llvm`
+
+- testing again:
+
+```bash
+~/dev/ModuleMakerTest ± ● main
+❯ make
+-- Could NOT find FFI (missing: FFI_LIBRARIES HAVE_FFI_CALL) 
+-- Could NOT find LibEdit (missing: LibEdit_INCLUDE_DIRS LibEdit_LIBRARIES) 
+-- Could NOT find Terminfo (missing: Terminfo_LIBRARIES Terminfo_LINKABLE) 
+-- Could NOT find ZLIB (missing: ZLIB_LIBRARY ZLIB_INCLUDE_DIR) 
+-- Could NOT find zstd (missing: zstd_LIBRARY zstd_INCLUDE_DIR) 
+-- Could NOT find LibXml2 (missing: LIBXML2_LIBRARY LIBXML2_INCLUDE_DIR) 
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/llvm/LLVMExports.cmake:1339 (add_library):
+  ADD_LIBRARY called with SHARED option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/llvm/LLVMConfig.cmake:345 (include)
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:10 (find_package)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/llvm/LLVMExports.cmake:1586 (add_library):
+  ADD_LIBRARY called with SHARED option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/llvm/LLVMConfig.cmake:345 (include)
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:10 (find_package)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/llvm/LLVMExports.cmake:1589 (add_library):
+  ADD_LIBRARY called with SHARED option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/llvm/LLVMConfig.cmake:345 (include)
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:10 (find_package)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/llvm/LLVMExports.cmake:1633 (add_library):
+  ADD_LIBRARY called with SHARED option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/llvm/LLVMConfig.cmake:345 (include)
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:10 (find_package)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/llvm/LLVMExports.cmake:1658 (add_library):
+  ADD_LIBRARY called with MODULE option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/llvm/LLVMConfig.cmake:345 (include)
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:10 (find_package)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/clang/ClangTargets.cmake:388 (add_library):
+  ADD_LIBRARY called with SHARED option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:19 (include)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/clang/ClangTargets.cmake:762 (add_library):
+  ADD_LIBRARY called with SHARED option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:19 (include)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at /usr/local/opt/llvm/lib/cmake/clang/ClangTargets.cmake:789 (add_library):
+  ADD_LIBRARY called with SHARED option but the target platform does not
+  support dynamic linking.  Building a STATIC library instead.  This may lead
+  to problems.
+Call Stack (most recent call first):
+  /usr/local/opt/llvm/lib/cmake/clang/ClangConfig.cmake:19 (include)
+  CMakeLists.txt:2 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Error at CMakeLists.txt:3 (target_link_libraries):
+  Cannot specify link libraries for target "ModuleMakerTest" which is not
+  built by this project.
+
+
+CMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.23)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring incomplete, errors occurred!
+See also "/Users/ash/dev/ModuleMakerTest/CMakeFiles/CMakeOutput.log".
+See also "/Users/ash/dev/ModuleMakerTest/CMakeFiles/CMakeError.log".
+make: *** [cmake_check_build_system] Error 1
+
+
+```
