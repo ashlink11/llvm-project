@@ -717,7 +717,7 @@ the database has been created, this message will no longer appear.
 
 # next day (thurs feb 29, 2024)
 
-- missing header error: "onfigure your compiler to include the LLVM header directory during compilation. You can do this by setting the `includePath` in your makefile or using compiler flags like `-I/path/to/include` (replace `/path/to/include` with the actual LLVM `include` directory)."
+- prev missing header error: "configure your compiler to include the LLVM header directory during compilation. You can do this by setting the `includePath` in your makefile or using compiler flags like `-I/path/to/include` (replace `/path/to/include` with the actual LLVM `include` directory)."
 - i think path to the header is `/usr/local/opt/llvm/include/llvm`
 
 - testing again:
@@ -829,4 +829,66 @@ See also "/Users/ash/dev/ModuleMakerTest/CMakeFiles/CMakeError.log".
 make: *** [cmake_check_build_system] Error 1
 
 
+```
+
+
+# next day (fri mar 1 2024)
+
+- these are errors with `make`, the rest are warnings:
+
+```bash
+-- Could NOT find FFI (missing: FFI_LIBRARIES HAVE_FFI_CALL) 
+-- Could NOT find LibEdit (missing: LibEdit_INCLUDE_DIRS LibEdit_LIBRARIES) 
+-- Could NOT find Terminfo (missing: Terminfo_LIBRARIES Terminfo_LINKABLE) 
+-- Could NOT find ZLIB (missing: ZLIB_LIBRARY ZLIB_INCLUDE_DIR) 
+-- Could NOT find zstd (missing: zstd_LIBRARY zstd_INCLUDE_DIR) 
+-- Could NOT find LibXml2 (missing: LIBXML2_LIBRARY LIBXML2_INCLUDE_DIR) 
+```
+
+- which kinds of libraries are they? how can i know? what are the diff file extensions would they have?
+  - `FFI`: The message mentions `FFI_LIBRARIES`, suggesting the actual library name might be "`libffi`" (common on Linux/Unix) or have "`ffi`" in the name.
+  - `LibEdit`: The message mentions `LibEdit_INCLUDE_DIRS` and `LibEdit_LIBRARIES`, indicating the library is likely named "`LibEdit`".
+  - `Terminfo`: The message mentions `Terminfo_LIBRARIES` and `Terminfo_LINKABLE`, suggesting the actual library name might be "`terminfo`" (common on Linux/Unix) or have "`terminfo`" in the name.
+  - Locate command (Linux/Unix): You can use the locate command to search for files based on patterns. Try commands like `locate libffi.so` or `locate libxml2.dylib` (replace with appropriate library names).
+  - Search directories (macOS): Libraries are usually stored in specific directories. On macOS, look in `/usr/lib` and `/System/Library/Frameworks`.
+
+1. `.so` (Shared Object):
+Found on Linux and Unix-based systems like Ubuntu, Debian, etc.
+Contains compiled code that can be shared and reused by multiple programs at runtime.
+Similar to .dll (Dynamic Link Library) on Windows systems.
+
+1. `.dylib` (Dynamic Library):
+Found specifically on macOS and iOS.
+Similar to .so but the file format is specific to Apple platforms.
+Also allows sharing and reuse of compiled code at runtime.
+
+1. `.framework` (Framework):
+Found on macOS and iOS.
+A bundle containing compiled code, resources, and metadata about a specific functionality.
+Offers a higher level of organization and functionality compared to individual .so or .dylib files.
+
+1. `.h` (Header):
+Used on various platforms including Linux, macOS, Windows, etc..
+Contains declarations of functions, variables, and data structures used in a program.
+Not directly executable, but included by other source code files (e.g., .c or .cpp) to access the declared elements.
+
+
+- which diff kinds of CMake commands are needed for diff lib types? what are the diff types of env variables that need to be set? where are they stored? what are they right now before trying to change them? how do i locate the the libs and env vars?
+  - `find_package` command to search for specific libraries and set variables like `LIBRARY` and `INCLUDE_DIRS`
+  - finding frameworks might involve using `find_framework` instead of the standard `find_package`
+  - `target_link_libraries` command: This command links the target executable or library with the found libraries.
+    - You might need to specify the full path to the library file (e.g., `/usr/lib/libz.dylib`) on macOS or just the library name (e.g., `ZLIB`) on Linux if the library is found in the standard search directories.
+
+
+- try to locate them with `locate libffi.so`
+
+```bash
+locate libffi.so   
+locate libffi.dylib
+locate LibEdit.framework
+locate terminfo
+locate libz.dylib
+locate zlib.h
+locate libxml2.dylib
+locate libxml2/libxml/xmlversion.h
 ```
