@@ -892,3 +892,32 @@ locate zlib.h
 locate libxml2.dylib
 locate libxml2/libxml/xmlversion.h
 ```
+
+
+- try locating them:
+
+```bash
+locate libffi.so   
+
+>_  WARNING: The locate database (/var/db/locate.database) does not exist.
+To create the database, run the following command:
+
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+
+locate libffi.so   
+
+>_  WARNING: The locate database (/var/db/locate.database) does not exist.
+To create the database, run the following command: 
+
+""
+
+```
+
+- not sure how long it will take to start the database
+
+`The -w flag waits for the process to finish before returning the prompt.`
+
+`While the database is building, the terminal prompt won't be available. You can't enter any new commands.`
+
+- ^this didnt happen.
+- need another way to locate the files. i could just look for them or try to install locate again.
