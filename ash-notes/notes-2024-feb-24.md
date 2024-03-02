@@ -920,4 +920,4 @@ To create the database, run the following command:
 `While the database is building, the terminal prompt won't be available. You can't enter any new commands.`
 
 - ^this didnt happen.
-- need another way to locate the files. i could just look for them or try to install locate again.
+- need another way to locate the files. i could just look for them or try to install locate again. 
