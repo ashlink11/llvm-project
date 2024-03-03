@@ -894,6 +894,8 @@ locate libxml2/libxml/xmlversion.h
 ```
 
 
+# next day sat march 2, 2024
+
 - try locating them:
 
 ```bash
@@ -921,3 +923,80 @@ To create the database, run the following command:
 
 - ^this didnt happen.
 - need another way to locate the files. i could just look for them or try to install locate again. 
+
+
+
+# next day sun march 3, 2024
+
+- tried this `locate libffi.so` and go no feedback in the terminal, which is great news, because i didn't get the error, so the previous day's commands worked
+
+```bash
+locate libffi.dylib
+/Library/Ruby/Gems/2.6.0/gems/ffi-1.11.1/ext/ffi_c/libffi-x86_64/.libs/libffi.dylib
+
+locate LibEdit.framework
+>_ no feedback
+
+locate terminfo
+> hundreds of lines of feedback
+
+locate libz.dylib
+/Applications/Descript.app/Contents/Resources/app.asar.unpacked/node_modules/beamcoder/build/Release/libz.dylib
+
+locate zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/libkern/zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/bzlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/libkern/zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/bzlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/libkern/zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/bzlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/libkern/zlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/bzlib.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk/usr/include/zlib.h
+/Library/Frameworks/Python.framework/Versions/3.11/Resources/English.lproj/Documentation/library/zlib.html
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/bzip2-sys-0.1.10+1.0.8/bzip2-1.0.8/bzlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/bzip2-sys-0.1.11+1.0.8/bzip2-1.0.8/bzlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libgit2-sys-0.12.23+1.2.0/libgit2/deps/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libgit2-sys-0.12.26+1.3.0/libgit2/deps/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libgit2-sys-0.13.4+1.4.2/libgit2/deps/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/librocksdb-sys-6.20.3/bzip2/bzlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/librocksdb-sys-6.20.3/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.2/src/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.2/src/zlib-ng/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.3/src/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.3/src/zlib-ng/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.5/src/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.5/src/zlib-ng/zlib.h.in
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.8/src/zlib/zlib.h
+/Users/ash/.cargo/registry/src/github.com-1ecc6299db9ec823/libz-sys-1.1.8/src/zlib-ng/zlib.h.in
+/Users/ash/.node-gyp/14.2.0/include/node/zlib.h
+/Users/ash/dev/CMake-fork/Utilities/cm3p/bzlib.h
+/Users/ash/dev/CMake-fork/Utilities/cm3p/zlib.h
+/Users/ash/dev/CMake-fork/Utilities/cmbzip2/bzlib.h
+/Users/ash/dev/CMake-fork/Utilities/cmzlib/zlib.h
+/Users/ash/dev/llvm-project/clang/test/Driver/hip-offload-compress-zlib.hip
+/usr/local/include/node/zlib.h
+
+locate libxml2.dylib
+>_ no feedback
+
+locate libxml2/libxml/xmlversion.h
+>_ no feedback
+```
+
+- results:
+  - `terminfo` is installed in a ton of places (need to find the right one and make it priority) but will be hard to search
+  - `zlib.h` looks like its installed in rustc dirs before CMake and llvm local repos last, so that one looks really promising
+  - the rest have no feedback or are in unexpected places, which makes me think they're probably wouldn't work.
+
+next steps:
+- i should look for some official clang/llvm local install instructions (without `homebrew`) with `apt-get` or something
+- oh actually let me try `brew install llvm --devel`
+  - worked some, then got the error `Error: invalid option: --devel`
+  - "Some packages offer a separate formula for the development version. Search for formulas containing "dev" or "devel" in the name on https://formulae.brew.sh/."
+  - "You can install the standard package and then manually install the development headers using the brew link --overwrite llvm command (replace llvm with the package name). This creates symbolic links in the standard locations for development tools to find them."
+  - "Building LLVM from source code offers the most control over development libraries, but it's a more complex process. This approach is recommended for advanced users who have specific needs. Refer to the official LLVM getting started guide for detailed instructions: https://www.youtube.com/watch?v=gCLDuu36HHM"
+
