@@ -1000,3 +1000,107 @@ next steps:
   - "You can install the standard package and then manually install the development headers using the brew link --overwrite llvm command (replace llvm with the package name). This creates symbolic links in the standard locations for development tools to find them."
   - "Building LLVM from source code offers the most control over development libraries, but it's a more complex process. This approach is recommended for advanced users who have specific needs. Refer to the official LLVM getting started guide for detailed instructions: https://www.youtube.com/watch?v=gCLDuu36HHM"
 
+
+
+
+
+
+# next day mon march 4, 2024
+
+- align all of these:
+  - installed llvm dev libraries
+  - $PATH
+  - cmake config
+
+```bash
+❯ brew install llvm
+==> Downloading https://formulae.brew.sh/api/formula.jws.js
+#################################################### 100.0%
+==> Downloading https://formulae.brew.sh/api/cask.jws.json
+#################################################### 100.0%
+Warning: llvm 17.0.6_1 is already installed and up-to-date.
+To reinstall 17.0.6_1, run:
+  brew reinstall llvm
+```
+
+
+```bash
+brew info llvm
+==> llvm: stable 17.0.6 (bottled), HEAD [keg-only]
+Next-gen compiler infrastructure
+https://llvm.org/
+/usr/local/Cellar/llvm/17.0.6_1 (7,207 files, 1.8GB)
+  Poured from bottle using the formulae.brew.sh API on 2024-02-02 at 17:29:55
+From: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/l/llvm.rb
+License: Apache-2.0 with LLVM-exception
+==> Dependencies
+Build: cmake ✘, ninja ✘, swig ✘
+Required: python@3.12 ✘, z3 ✘, zstd ✔
+==> Options
+--HEAD
+	Install HEAD version
+==> Caveats
+To use the bundled libc++ please add the following LDFLAGS:
+  LDFLAGS="-L/usr/local/opt/llvm/lib/c++ -Wl,-rpath,/usr/local/opt/llvm/lib/c++"
+
+llvm is keg-only, which means it was not symlinked into /usr/local,
+because macOS already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+If you need to have llvm first in your PATH, run:
+  echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.zshrc
+
+For compilers to find llvm you may need to set:
+  export LDFLAGS="-L/usr/local/opt/llvm/lib"
+  export CPPFLAGS="-I/usr/local/opt/llvm/include"
+==> Analytics
+install: 44,707 (30 days), 145,108 (90 days), 470,071 (365 days)
+install-on-request: 19,652 (30 days), 63,470 (90 days), 309,979 (365 days)
+build-error: 498 (30 days)
+```
+
+results:
+- looks like i don't have all the dependencies, and some i do have but not installed in the right place
+- do i need to use `libc++`? probably.
+- `not symlinked into /usr/local` so okay then i really probably shouldnt use homebrew unless i shouldnt add dev libraries to my system's clang/llvm
+- now have a command for setting the `$PATH` 
+  - make sure `zshrc` is the shell i'm using (note: it's in the `~` dir)
+  - These environment variable changes only apply to the current terminal session. To make them permanent, add the export lines to your shell configuration file (e.g., `.bashrc` or `.zshrc`).
+- `which clang` to check the exact location and modify the path accordingly
+- now have commands to set compilers to find llvm
+- "Consider using a tool like `cmake-find-modules` to automate environment variable configuration during project builds."
+- read fully through this which i haven't yet: [official llvm advanced config options](https://llvm.org/docs/)
+
+```bash
+==> Dependencies
+Build: cmake ✘, ninja ✘, swig ✘
+Required: python@3.12 ✘, z3 ✘, zstd ✔
+
+...
+
+
+==> Caveats
+To use the bundled libc++ please add the following LDFLAGS:
+  LDFLAGS="-L/usr/local/opt/llvm/lib/c++ -Wl,-rpath,/usr/local/opt/llvm/lib/c++"
+
+llvm is keg-only, which means it was not symlinked into /usr/local,
+because macOS already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+If you need to have llvm first in your PATH, run:
+  echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.zshrc
+  or 
+  export PATH="/usr/local/opt/llvm/bin:$PATH"
+
+
+For compilers to find llvm you may need to set:
+  export LDFLAGS="-L/usr/local/opt/llvm/lib"
+  export CPPFLAGS="-I/usr/local/opt/llvm/include"
+```
+
+### next steps:
+
+- read fully: [official llvm 17.0 advanced config options](https://llvm.org/docs/GettingStarted.html) notes:
+
+
+
