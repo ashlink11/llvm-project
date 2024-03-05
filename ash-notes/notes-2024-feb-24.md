@@ -1103,4 +1103,43 @@ For compilers to find llvm you may need to set:
 - read fully: [official llvm 17.0 advanced config options](https://llvm.org/docs/GettingStarted.html) notes:
 
 
+# tues mar 5, 2024
 
+#### overview of article^
+
+- `LLVM` is core: "contains all of the tools, libraries, and header files needed to process intermediate representations and converts it into object files. Tools include an assembler, disassembler, bitcode analyzer, and bitcode optimizer. It also contains basic regression tests."
+- frontend: `clang` "This component compiles C, `C++`, Objective C, and Objective C++ code into LLVM bitcode – and from there into object files, using LLVM."
+- "Other components include: the `libc++ C++ standard library`, the `LLD linker`, and more."
+
+- uses the `git clone` installation
+- uses `cmake` to configure
+- `Visual Studio` is a build system generator
+
+- `cmake -S llvm -B build -G <generator> [options]`
+  - "For example, to build LLVM, Clang, and LLD, use `-DLLVM_ENABLE_PROJECTS="clang;lld"`."
+  - `-DCMAKE_INSTALL_PREFIX=directory` — Specify for directory the full pathname of where you want the LLVM tools and libraries to be installed (default `/usr/local`).
+  - etc.
+- `cmake --build build [--target <target>]` or the build system specified above directly.
+  - The default target (i.e. `cmake --build build` or `make -C build`) will build all of LLVM.
+  - CMake will generate build targets for each tool and library, and most LLVM sub-projects generate their own `check-<project>` target.
+- A basic CMake and build/test invocation which only builds LLVM and no other subprojects. This will setup an LLVM build with debugging info, then compile LLVM and run LLVM tests.
+  - `cmake -S llvm -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug`
+  - `ninja -C build check-llvm`
+
+- etc.
+  - [more cmake info](https://llvm.org/docs/CMake.html)
+
+- minimum versions:
+
+```
+Clang 5.0
+Apple Clang 10.0
+GCC 7.4
+Visual Studio 2019 16.7
+```
+
+next steps:
+- what is the "default target" and should i use it?
+- what are "build targets" for each tool and library?
+- do i need LLVM sub-projects?
+- 
