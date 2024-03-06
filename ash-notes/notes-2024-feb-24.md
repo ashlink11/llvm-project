@@ -1142,4 +1142,81 @@ next steps:
 - what is the "default target" and should i use it?
 - what are "build targets" for each tool and library?
 - do i need LLVM sub-projects?
-- 
+
+
+ # next day - wed mar 6, 2024
+
+ - the default target in `cmake` is "`make`" but users can specify a different target with the `--build` option
+ - A build target in CMake is a specific file or directory that CMake creates when you build your project. These targets are created based on the instructions you provide CMake through `CMakeLists.txt` files. There are different types of build targets, including executables, libraries, and documentation. By default, CMake will generate makefiles that will build these targets. However, you can also specify a different build tool using the `-G` option
+ - This document discusses building LLVM with CMake. It covers various options and variables you can set. Some of the sub-projects you can enable are `clang`, `lldb`, `libc++`, and `libcxxabi`. You can also specify which runtimes to build.
+
+
+- try this simple example from that doc: https://llvm.org/docs/GettingStarted.html#simple-example
+
+
+```c
+#include <stdio.h>
+
+int main() {
+  printf("hello world\n");
+  return 0;
+}
+```
+
+
+```bash
+clang hello.c -o hello
+clang -O3 -emit-llvm hello.c -c -o hello.bc
+./hello
+lli hello.bc
+
+llvm-dis < hello.bc | less
+
+; ModuleID = '<stdin>'
+source_filename = "hello.c"
+target datalayout = "e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-apple-macosx14.0.0"
+
+@str = private unnamed_addr constant [12 x i8] c"hello world\00", align 1
+
+; Function Attrs: nofree nounwind ssp uwtable
+define i32 @main() local_unnamed_addr #0 {
+  %1 = tail call i32 @puts(ptr nonnull dereferenceable(1) @str)
+  ret i32 0
+}
+
+; Function Attrs: nofree nounwind
+declare noundef i32 @puts(ptr nocapture noundef readonly) local_unnamed_addr #1
+
+attributes #0 = { nofree nounwind ssp uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="penryn" "target-features"="+cmov,+cx16,+cx8,+fxsr,+mmx,+sahf,+sse,+sse2,+sse3,+sse4.1,+ssse3,+x87" "tune-cpu"="generic" }
+attributes #1 = { nofree nounwind }
+
+!llvm.module.flags = !{!0, !1, !2, !3}
+!llvm.ident = !{!4}
+
+!0 = !{i32 1, !"wchar_size", i32 4}
+!1 = !{i32 8, !"PIC Level", i32 2}
+!2 = !{i32 7, !"uwtable", i32 2}
+!3 = !{i32 7, !"frame-pointer", i32 2}
+!4 = !{!"Homebrew clang version 17.0.6"}
+
+
+llc hello.bc -o hello.s
+
+gcc hello.s -o hello.native                             
+
+./hello.native
+
+```
+
+results:
+- everything worked, which means i finally built and ran with clang and llvm for the first time. 
+- note: it didn't use a cmake config.
+
+next steps:
+- study each step of the execution
+  - build target files
+  - bash flags
+  - source files
+  - location of all files
+  - clang config
