@@ -1229,3 +1229,12 @@ next steps:
 - the CMake official docs dont have an example for macOS
 - i think i need to continue the Cmake tutorial. already done the first step, but think i'll need to try to customize it. here: https://cmake.org/cmake/help/latest/guide/tutorial/Adding%20a%20Library.html
 - research how Cmake works with macOS
+
+- i might've found the solution. cmake desktop app for macOS. i used the dmg here https://cmake.org/download/. you can specify:
+  - location of source code
+  - where to build binaries
+  - there's an environment editor for $PATH, etc.
+  - can add cache entries 
+  - then configure
+  - and generate (and choose generator)
+  - and open project
