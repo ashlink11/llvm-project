@@ -1220,3 +1220,12 @@ next steps:
   - source files
   - location of all files
   - clang config
+
+
+# thurs mar 7, 2024
+
+- yikes i'm having a tough time with this
+- the llvm docs example seems to need Xcode
+- the CMake official docs dont have an example for macOS
+- i think i need to continue the Cmake tutorial. already done the first step, but think i'll need to try to customize it. here: https://cmake.org/cmake/help/latest/guide/tutorial/Adding%20a%20Library.html
+- research how Cmake works with macOS
