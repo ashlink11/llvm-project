@@ -7,10 +7,12 @@
    11. review llvm infra low-level (ie what is an LLVM "library" and why does it have diff meanings?) 
    13. review ModuleMaker code to determine C++ version and libs needed to run it for the config, headers, etc., so i can make sure to have those header files in the LLVM install
    17. which is the proper LLVM installation? and which can i use to build a project and which are simply for running my own system's clang compiler?
-       1.  VSCode extension
-       2.  Xcode / native
-       3.  CMake generates?
-       4.  git clone - but where is it installed on my computer? (i.e. how to set `PATH`)
+       1.  VSCode extension (mar 26, 2024: didn't work and caused errors)
+       2.  Xcode app
+       3.  native install
+       4.  CMake with bash commands (does it generate the llvm root for the source files?) 
+       5.  CMake GUI is an option too
+       6.  git clone - but where is it installed on my computer? (i.e. how to set `PATH`)
    18. test diff CMake configs
        1.  find OSS examples on gh, etc.
        2.  learn more basics from `dev/CMake-fork` repo
@@ -1238,3 +1240,6 @@ next steps:
   - then configure
   - and generate (and choose generator)
   - and open project
+
+
+# see the portfolio repo for updated progress (today: tues mar 26, 2024)
